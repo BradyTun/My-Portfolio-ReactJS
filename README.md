@@ -12,7 +12,7 @@ _Warm paper canvas · espresso ink · Cormorant Garamond display type · ultra-f
 
 <br/>
 
-[**Live Demo**](https://www.facebook.com/letstechclub) &nbsp;•&nbsp; [**Report an Issue**](https://github.com/BradyTun/My-Portfolio-ReactJS/issues) &nbsp;•&nbsp; [**Fork & Make it Yours**](#-make-it-yours)
+[**Live Demo**](https://kyawkokotun.com) &nbsp;•&nbsp; [**Report an Issue**](https://github.com/BradyTun/My-Portfolio-ReactJS/issues) &nbsp;•&nbsp; [**Fork & Make it Yours**](#-make-it-yours)
 
 </div>
 
