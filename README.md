@@ -2,9 +2,9 @@
 
 # ✦ &nbsp; Kyaw Ko Ko Tun — Portfolio &nbsp; ✦
 
-### A premium, minimalist portfolio with an *old-soul* editorial aesthetic.
+### A minimalist portfolio with an *old-soul* editorial aesthetic.
 
-_Warm paper canvas · espresso ink · Cormorant Garamond display type · ultra-fine grids · flawless micro-interactions._
+_Warm paper canvas · espresso ink · Cormorant Garamond display type · ultra-fine grids · gentle micro-interactions._
 
 <br/>
 
@@ -20,12 +20,12 @@ _Warm paper canvas · espresso ink · Cormorant Garamond display type · ultra-f
 
 ## ✦ Philosophy
 
-This isn't a generic template. It's built on a single idea: **restraint is the signal of sophistication.**
+This is a personal portfolio built around one idea: **let the work breathe.**
 
-- **Premium minimalism** — every element breathes. Negative space is a feature, not an absence.
-- **Editorial typography** — a striking serif (`Cormorant Garamond`) paired with precision sans (`Inter`) and technical mono (`JetBrains Mono`).
+- **Minimalism** — every element has room. Negative space is treated as a feature, not an absence.
+- **Editorial typography** — a serif (`Cormorant Garamond`) paired with a clean sans (`Inter`) and a technical mono (`JetBrains Mono`).
 - **Warm, not sterile** — no pure whites, no pure blacks. The canvas is coffee-tinted; the ink is espresso.
-- **Subtle creative edge** — a scroll-progress bar, a live timezone clock, an animated full-screen menu, a pausing marquee, and grid-row hover reveals.
+- **Small creative touches** — a scroll-progress bar, a live timezone clock, an animated full-screen menu, a pausing marquee, and grid-row hover reveals.
 
 ---
 
@@ -141,10 +141,10 @@ See [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-**Built with intent by [Kyaw Ko Ko Tun](https://github.com/BradyTun)**
+**Built by [Kyaw Ko Ko Tun](https://github.com/BradyTun)**
 
 [GitHub](https://github.com/BradyTun/) · [LinkedIn](https://www.linkedin.com/in/kyawkokotun/) · [Facebook](https://www.facebook.com/kyawkokotun888/)
 
-<sub>If this gave you a head start, consider leaving a ⭐</sub>
+<sub>If this was helpful to you, a ⭐ is always appreciated</sub>
 
 </div>
