@@ -116,7 +116,7 @@ export default function Nav() {
               Kyaw Ko Ko Tun
             </span>
             <span className="block font-mono text-[0.62rem] tracking-widest uppercase text-ink-faint">
-              Engineer · Builder
+              Builder · Scaler
             </span>
           </span>
         </a>
