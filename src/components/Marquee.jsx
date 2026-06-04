@@ -4,11 +4,11 @@
 const ITEMS = [
   'Full-Stack Engineering',
   'System Architecture',
-  'Product Design',
+  'Product Thinking',
   'AI Agents',
-  'Scalable Infrastructure',
+  'Reliable Infrastructure',
   'UX Thinking',
-  'Entrepreneurship',
+  'Community Work',
 ]
 
 export default function Marquee() {

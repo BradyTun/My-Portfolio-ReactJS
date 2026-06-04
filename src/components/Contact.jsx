@@ -1,10 +1,11 @@
 import { Section } from './Section'
+import { ArrowUpRight, Code2, Layers3, Mail, Users } from 'lucide-react'
 
 // ── Links ───────────────────────────────────────────────────────────────────
 const SOCIALS = [
-  { label: 'GitHub', href: 'https://github.com/BradyTun/' },
-  { label: 'Facebook', href: 'https://www.facebook.com/kyawkokotun888/' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kyawkokotun/' },
+  { label: 'GitHub', href: 'https://github.com/BradyTun/', Icon: Code2 },
+  { label: 'Facebook', href: 'https://www.facebook.com/kyawkokotun888/', Icon: Users },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kyawkokotun/', Icon: Layers3 },
 ]
 
 const EMAIL = 'kyawkokotun888@gmail.com'
@@ -18,7 +19,7 @@ export default function Contact() {
           04 — Contact
         </span>
         <span className="font-mono text-xs md:text-sm tracking-widest text-ink-muted uppercase">
-          Let's Build
+          Say Hello
         </span>
         <span className="flex-1 h-px bg-ink-ghost" />
       </div>
@@ -30,28 +31,32 @@ export default function Contact() {
         aria-label={`Email ${EMAIL}`}
       >
         <h2 className="font-display font-light text-ink leading-[0.95] tracking-tightest text-[clamp(2.75rem,9vw,8rem)]">
-          Wanna
+          Want to
           <br />
           talk<span className="text-accent">?</span>
         </h2>
         <span className="inline-flex items-center gap-4 mt-10 font-sans text-base md:text-lg text-ink-muted group-hover:text-ink transition-colors duration-400">
+          <Mail size={16} aria-hidden="true" className="text-accent-dark" />
           {EMAIL}
-          <span className="inline-block transition-transform duration-400 ease-expo-out group-hover:translate-x-2">
-            →
-          </span>
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            className="transition-transform duration-400 ease-expo-out group-hover:translate-x-1 group-hover:-translate-y-1"
+          />
         </span>
       </a>
 
       {/* Socials */}
       <div className="mt-24 flex flex-wrap gap-x-12 gap-y-4">
-        {SOCIALS.map(({ label, href }) => (
+        {SOCIALS.map(({ label, href, Icon }) => (
           <a
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative font-sans text-base md:text-lg text-ink-muted hover:text-ink transition-colors duration-300 tracking-wide"
+            className="group relative inline-flex items-center gap-2 font-sans text-base md:text-lg text-ink-muted hover:text-ink transition-colors duration-300 tracking-wide"
           >
+            <Icon size={15} aria-hidden="true" className="text-accent-dark" />
             {label}
             <span className="absolute -bottom-0.5 left-0 w-full h-px bg-ink scale-x-0 origin-left transition-transform duration-300 ease-expo-out group-hover:scale-x-100" />
           </a>
@@ -71,7 +76,7 @@ export function Footer() {
           © {year} Kyaw Ko Ko Tun
         </span>
         <span className="font-mono text-[0.6rem] tracking-wider text-ink-faint uppercase">
-          Designed &amp; built with intent
+          Designed &amp; built with care
         </span>
         <a
           href="#home"

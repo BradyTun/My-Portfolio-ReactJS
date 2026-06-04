@@ -8,7 +8,7 @@ const ROLES = [
     org: "Let's Tech Club",
     type: 'Founder',
     description:
-      'Founded and lead a modern, specialized tech school and educational platform built to train the next generation of developers.',
+      'Founded and run a tech education club focused on practical training for aspiring developers.',
   },
   {
     period: '2025 — Present',
@@ -16,7 +16,7 @@ const ROLES = [
     org: 'OSBAY',
     type: 'Engineering',
     description:
-      'Develop MarTech products — automated lead searching, market research, and conversion pipelines engineered for scale.',
+      'Build MarTech tools for lead research, market analysis, and conversion workflows, with a focus on reliability.',
   },
   {
     period: '2023 — 2025',
@@ -24,7 +24,7 @@ const ROLES = [
     org: 'Code Mal Youth Org',
     type: 'Community',
     description:
-      'Founded a youth organization contributing educational resources to help the next generation learn to code — built from my own early experience.',
+      'Started a youth coding community and shared beginner-friendly resources to help more students learn to code.',
   },
   {
     period: '2023 — 2024',
@@ -32,7 +32,7 @@ const ROLES = [
     org: 'Sa Map',
     type: 'Leadership',
     description:
-      'Youth Organization CTO at an entrepreneurship-focused org making meaningful contributions to Myanmar youth.',
+      'Served as CTO in a youth entrepreneurship organization, supporting product direction and technical decisions.',
   },
   {
     period: 'Before 2023',
@@ -40,7 +40,7 @@ const ROLES = [
     org: 'Various Organizations',
     type: 'Foundations',
     description:
-      'Handled freelance client projects, completed internships, and held junior to mid-level engineering positions — establishing my technical foundations.',
+      'Worked across freelance projects, internships, and junior-to-mid engineering roles that built my technical foundation.',
   },
 ]
 
@@ -49,8 +49,8 @@ export default function Experience() {
     <Section id="experience" label="Experience" className="bg-surface/40">
       <SectionHeading
         index="03 — Path"
-        eyebrow="Experience & Leadership"
-        title="Engineer by craft. Founder by instinct."
+        eyebrow="Experience Timeline"
+        title="Always a Beginner."
       />
 
       <div>

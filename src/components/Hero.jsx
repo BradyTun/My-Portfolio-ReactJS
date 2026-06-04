@@ -30,11 +30,11 @@ export default function Hero() {
         style={{ animationDelay: '80ms' }}
       >
         <span className="font-mono text-xs md:text-sm tracking-widest text-ink-muted uppercase">
-          Software Engineer &amp; Entrepreneur
+          Software Engineer &amp; Community Builder
         </span>
         <span className="font-mono text-xs tracking-wider text-ink-faint hidden sm:flex items-center gap-3">
           <span className="inline-block w-2 h-2 rounded-full bg-accent" />
-          Available for select work
+          Open to new work
         </span>
       </div>
 
@@ -73,8 +73,8 @@ export default function Hero() {
           {/* Thin structural line — a visual breath between name and copy */}
           <div className="w-12 h-px bg-accent mt-[0.95rem] flex-shrink-0" />
           <p className="font-display text-ink-muted leading-[1.45] max-w-3xl text-[clamp(1.35rem,2.6vw,2rem)] font-light">
-            Building scalable things while actively building 
-            and nurturing local developer communities.
+            I build useful digital products and give
+            local communities everything I have.
           </p>
         </div>
       </div>

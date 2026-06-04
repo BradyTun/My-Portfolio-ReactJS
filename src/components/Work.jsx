@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Section, SectionHeading } from './Section'
+import { ArrowUpRight } from 'lucide-react'
 
 // ── Project data ────────────────────────────────────────────────────────────
 const PROJECTS = [
@@ -10,10 +11,10 @@ const PROJECTS = [
     category: 'EdTech Platform',
     role: 'Founder & CEO',
     description:
-      'A modern, specialized tech school and educational platform built to train the next generation of developers — curriculum, product, and infrastructure.',
+      'A practical tech education platform focused on helping the next generation of developers learn through real projects.',
     stack: ['Next.js', 'Django', 'PostgreSQL', 'AWS'],
     link: 'https://www.facebook.com/letstechclub',
-    status: 'Launching Soon ✦',
+    status: 'In Progress ✦',
     featured: true,
   },
   {
@@ -23,7 +24,7 @@ const PROJECTS = [
     category: 'Marketplace',
     role: 'Engineering & Product',
     description:
-      "A pioneering platform connecting Myanmar's blue-collar workers with verified, equitable employment opportunities in Thailand.",
+      "A platform connecting Myanmar's blue-collar workers with verified employment opportunities in Thailand.",
     stack: ['React', 'Django', 'PostgreSQL', 'Docker'],
     link: 'https://sabaijob.com',
     status: 'Live',
@@ -35,7 +36,7 @@ const PROJECTS = [
     category: 'Financial Infrastructure',
     role: 'System Architect',
     description:
-      'A high-stakes, Binance-inspired P2P financial exchange platform. Details confidential — built for trust, throughput, and security under pressure.',
+      'A P2P financial exchange project. Details are confidential; my focus was reliability, security, and clear transaction flows.',
     stack: ['React', 'Django', 'PostgreSQL', 'AWS'],
     status: 'Confidential',
   },
@@ -46,7 +47,7 @@ const PROJECTS = [
     category: 'Enterprise Product',
     role: 'Senior Software Engineer',
     description:
-      'Automated lead-searching, market research, and conversion pipelines — marketing-technology products engineered for scale and reliability.',
+      'Automated lead search, market research, and conversion workflows for marketing teams, built for reliability and steady growth.',
     stack: ['Next.js', 'Django', 'PostgreSQL', 'Docker', 'AWS'],
     status: 'In Production',
   },
@@ -57,7 +58,7 @@ const PROJECTS = [
     category: 'Open Source',
     role: 'Founder',
     description:
-      'An upcoming open-source networking platform — reimagining how people connect, share, and build community in the open.',
+      'An upcoming open-source networking platform for people to connect, share, and build community in public.',
     stack: ['Next.js', 'PostgreSQL', 'Docker'],
     status: 'Upcoming',
   },
@@ -69,18 +70,25 @@ const PROJECTS = [
 function ProjectRow({ project }) {
   const [open, setOpen] = useState(false)
 
-  const RowTag = project.link ? 'a' : 'div'
-  const rowProps = project.link
-    ? { href: project.link, target: '_blank', rel: 'noopener noreferrer' }
-    : {}
+  const toggleOpen = () => setOpen((v) => !v)
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      toggleOpen()
+    }
+  }
 
   return (
-    <RowTag
-      {...rowProps}
+    <div
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      onClick={toggleOpen}
+      onKeyDown={onKeyDown}
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
       className={[
         'group block border-t cursor-pointer outline-none transition-all duration-500',
         'px-4 md:px-6 -mx-4 md:-mx-6 rounded-2xl',
@@ -169,11 +177,23 @@ function ProjectRow({ project }) {
                   </span>
                 ))}
               </div>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-2 font-sans text-sm text-ink-muted hover:text-ink transition-colors duration-300"
+                >
+                  View More
+                  <ArrowUpRight size={14} aria-hidden="true" />
+                </a>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </RowTag>
+    </div>
   )
 }
 
@@ -183,7 +203,7 @@ export default function Work() {
       <SectionHeading
         index="01 — Work"
         eyebrow="Selected Projects"
-        title="Systems built to be trusted, products built to scale."
+        title="Practical products, built to last."
       />
       <div className="border-b border-ink-ghost">
         {PROJECTS.map((project) => (
@@ -195,25 +215,25 @@ export default function Work() {
       <div className="mt-16 md:mt-24 grid md:grid-cols-12 gap-y-8 gap-x-12">
         <div className="md:col-span-4">
           <span className="font-mono text-xs tracking-wider text-accent-dark uppercase">
-            Active Ecosystem
+            Other Work
           </span>
           <h4 className="font-display font-light text-2xl text-ink leading-tight mt-3">
-            Other Deployments
+            Additional Projects
           </h4>
         </div>
         <div className="md:col-span-8">
           <p className="font-sans text-lg text-ink-muted leading-[1.8] max-w-2xl mb-8">
-            Beyond these major focus platforms, I have conceptualized, designed, 
-            and deployed a constellation of specialized systems over the years, including:
+            Alongside these focus projects, I've also built smaller tools and
+            systems over the years, including:
           </p>
           <div className="flex flex-wrap gap-x-7 gap-y-4">
             {[
               'Custom POS',
               'Modular LMS Platforms',
-              'Advanced Telegram Bots & Automations',
-              'Lead generation systems',
-              'Market scraper arrays',
-              'Direct-to-user utility tools',
+              'Telegram bots and automations',
+              'Lead generation tools',
+              'Market data scrapers',
+              'Utility tools for end users',
             ].map((tool, idx) => (
               <span key={idx} className="flex items-center gap-2 font-display italic font-light text-xl text-ink">
                 <span className="text-accent">✦</span> {tool}

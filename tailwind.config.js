@@ -4,24 +4,23 @@ export default {
   theme: {
     extend: {
       // ── Color System ─────────────────────────────────────────────────────────
-      // Warm off-white canvas meets espresso ink. Every shade is temperature-
-      // corrected — no sterile grays, no pure blacks.
+      // High-contrast dark palette tuned for strong readability.
       colors: {
-        canvas: '#F7F5F0',
+        canvas: '#05070B',
         surface: {
-          DEFAULT: '#EFEDE8',
-          alt: '#E4E1D9',
+          DEFAULT: '#0D1117',
+          alt: '#151C28',
         },
         ink: {
-          DEFAULT: '#1A1814',
-          muted: '#6E6A62',
-          faint: '#ADA99F',
-          ghost: '#D9D6CE',
+          DEFAULT: '#F3F6FC',
+          muted: '#C9D2E1',
+          faint: '#95A1B4',
+          ghost: '#2A3445',
         },
         accent: {
-          DEFAULT: '#C4A882',
-          dark: '#8B7355',
-          light: '#DDD0B8',
+          DEFAULT: '#F0B24A',
+          dark: '#FFD07A',
+          light: '#FFE4B2',
         },
       },
 

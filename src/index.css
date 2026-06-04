@@ -11,7 +11,7 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
     /* Base type scale bumped up for a more confident, readable rhythm */
     font-size: 17px;
   }
@@ -37,13 +37,12 @@
   body {
     @apply bg-canvas font-sans text-ink antialiased;
     position: relative;
-    /* Warm paper texture: an ultra-fine grid + soft corner glows.
-       Keeps the canvas from ever feeling flat or sterile. */
+    /* Dark canvas texture: subtle grid + warm glow for depth. */
     background-image:
-      radial-gradient(circle at 88% -8%, rgba(196, 168, 130, 0.14), transparent 42%),
-      radial-gradient(circle at 6% 108%, rgba(196, 168, 130, 0.1), transparent 46%),
-      linear-gradient(rgba(26, 24, 20, 0.022) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 20, 0.022) 1px, transparent 1px);
+      radial-gradient(circle at 88% -8%, rgba(240, 178, 74, 0.18), transparent 42%),
+      radial-gradient(circle at 6% 108%, rgba(240, 178, 74, 0.14), transparent 46%),
+      linear-gradient(rgba(243, 246, 252, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(243, 246, 252, 0.05) 1px, transparent 1px);
     background-size: auto, auto, 56px 56px, 56px 56px;
     background-attachment: fixed, fixed, scroll, scroll;
   }
@@ -52,10 +51,10 @@
     min-height: 100svh;
   }
 
-  /* Warm selection tint */
+  /* High-contrast selection tint */
   ::selection {
-    background-color: rgba(196, 168, 130, 0.22);
-    color: #1A1814;
+    background-color: rgba(240, 178, 74, 0.35);
+    color: #05070B;
   }
 }
 
@@ -101,7 +100,7 @@
   /* Text stroke (outline) — for big ghosted decorative type */
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1px rgba(26, 24, 20, 0.16);
+    -webkit-text-stroke: 1px rgba(243, 246, 252, 0.22);
   }
 }
 
