@@ -73,8 +73,8 @@ export default function Hero() {
           {/* Thin structural line — a visual breath between name and copy */}
           <div className="w-12 h-px bg-accent mt-[0.95rem] flex-shrink-0" />
           <p className="font-display text-ink-muted leading-[1.45] max-w-3xl text-[clamp(1.35rem,2.6vw,2rem)] font-light">
-            I build useful digital products and give
-            local communities everything I have.
+            I build scalable things and plan to give
+            local dev communities everything I have.
           </p>
         </div>
       </div>
