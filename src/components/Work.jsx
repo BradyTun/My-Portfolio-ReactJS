@@ -98,15 +98,15 @@ function ProjectRow({ project }) {
       ].join(' ')}
     >
       {/* Top line — always visible */}
-      <div className="flex items-baseline justify-between gap-6">
-        <div className="flex items-baseline gap-5 md:gap-9 min-w-0">
+      <div className="flex flex-col gap-4 md:flex-row md:items-baseline md:justify-between">
+        <div className="flex items-start md:items-baseline gap-4 md:gap-9 min-w-0 w-full md:w-auto">
           <span className="font-mono text-sm tracking-wider text-ink-faint flex-shrink-0">
             {project.id}
           </span>
-          <div className="flex items-baseline gap-4 min-w-0 flex-wrap">
+          <div className="flex items-start md:items-baseline gap-3 md:gap-4 min-w-0 flex-wrap">
             <h3
               className={[
-                'font-display font-light leading-none tracking-tight truncate',
+                'font-display font-light leading-none tracking-tight whitespace-normal break-words md:truncate',
                 'text-[clamp(2.5rem,6vw,4.75rem)]',
                 'transition-all duration-500 ease-expo-out',
                 open ? 'text-ink translate-x-2' : 'text-ink',
@@ -127,7 +127,7 @@ function ProjectRow({ project }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-5 md:gap-8 flex-shrink-0">
+        <div className="flex items-center gap-5 md:gap-8 flex-shrink-0 self-start md:self-auto">
           <span className="hidden sm:block font-mono text-xs tracking-wider text-ink-muted uppercase">
             {project.category}
           </span>
