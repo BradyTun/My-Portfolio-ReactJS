@@ -33,7 +33,7 @@ const FOCUS_POINTS = [
   },
   {
     title: 'Contribute locally',
-    text: 'I support developer communities through sharing and mentorship.',
+    text: 'I support developer communities with any way I can.',
     Icon: Users,
   },
 ]
