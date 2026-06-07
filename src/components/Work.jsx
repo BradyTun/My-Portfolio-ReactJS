@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import { Section, SectionHeading } from './Section'
 import { ArrowUpRight } from 'lucide-react'
+import letstechLogo from '../assets/letstech.png'
+import sabaiLogo from '../assets/sabai.png'
+import whereLogo from '../assets/where.png'
+import hysanLogo from '../assets/hysan.png'
 
 // ── Project data ────────────────────────────────────────────────────────────
 const PROJECTS = [
   {
     id: '01',
     name: "Let's Tech Club",
+    logo: letstechLogo,
     year: '2026',
     category: 'EdTech Platform',
     role: 'Founder & CEO',
@@ -14,12 +19,13 @@ const PROJECTS = [
       'A practical tech education platform focused on helping the next generation of developers learn through real projects.',
     stack: ['Next.js', 'Django', 'PostgreSQL', 'AWS'],
     link: 'https://www.facebook.com/letstechclub',
-    status: 'In Progress ✦',
+    status: 'Coming June 2026 ✦',
     featured: true,
   },
   {
     id: '02',
     name: 'Sabai Job',
+    logo: sabaiLogo,
     year: '2025',
     category: 'Marketplace',
     role: 'Engineering & Product',
@@ -54,13 +60,27 @@ const PROJECTS = [
   {
     id: '05',
     name: 'WHERE',
+    logo: whereLogo,
+    launchBadge: true,
     year: '2026',
     category: 'Open Source',
     role: 'Founder',
     description:
       'An upcoming open-source networking platform for people to connect, share, and build community in public.',
     stack: ['Next.js', 'PostgreSQL', 'Docker'],
-    status: 'Upcoming',
+    status: 'Coming July 2026',
+  },
+  {
+    id: '06',
+    name: 'Hysan Education',
+    logo: hysanLogo,
+    year: '2024-2025',
+    category: 'Education Tech',
+    role: 'Tech Team Lead',
+    description:
+      'Led the tech team to develop a school management system for Hysan Education, a leading English language school in Myanmar.',
+    stack: ['React', 'Django', 'PostgreSQL'],
+    status: 'Delivered',
   },
 ]
 
@@ -103,7 +123,15 @@ function ProjectRow({ project }) {
           <span className="font-mono text-sm tracking-wider text-ink-faint flex-shrink-0">
             {project.id}
           </span>
-          <div className="flex items-start md:items-baseline gap-3 md:gap-4 min-w-0 flex-wrap">
+          <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-wrap">
+            {project.logo && (
+              <img
+                src={project.logo}
+                alt={`${project.name} logo`}
+                className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-contain bg-canvas border border-ink-ghost p-1.5 flex-shrink-0"
+                loading="lazy"
+              />
+            )}
             <h3
               className={[
                 'font-display font-light leading-none tracking-tight whitespace-normal break-words md:truncate',
@@ -115,7 +143,7 @@ function ProjectRow({ project }) {
               {project.name}
             </h3>
             {/* Pending / Launching badge */}
-            {project.featured && (
+            {(project.featured || project.launchBadge) && (
               <span className="inline-flex items-center gap-2 font-mono text-[0.62rem] tracking-widest uppercase text-accent-dark border border-accent/60 rounded-full px-3 py-1.5 whitespace-nowrap">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-60 animate-ping" />

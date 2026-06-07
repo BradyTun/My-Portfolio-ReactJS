@@ -1,4 +1,8 @@
 import { Section, SectionHeading } from './Section'
+import letstechLogo from '../assets/letstech.png'
+import samapLogo from '../assets/samap.png'
+import codemalLogo from '../assets/codemal.png'
+import hysanLogo from '../assets/hysan.png'
 
 // ── Experience data ─────────────────────────────────────────────────────────
 const ROLES = [
@@ -6,6 +10,7 @@ const ROLES = [
     period: '2025 — Present',
     role: 'CEO & Founder',
     org: "Let's Tech Club",
+    logo: letstechLogo,
     type: 'Founder',
     description:
       'Founded and run a tech education club focused on practical training for aspiring developers.',
@@ -19,9 +24,19 @@ const ROLES = [
       'Build MarTech tools for lead research, market analysis, and conversion workflows, with a focus on reliability.',
   },
   {
+    period: '2024 — 2025',
+    role: 'Tech Team Lead',
+    org: 'Hysan Education',
+    logo: hysanLogo,
+    type: 'EdTech',
+    description:
+      'Led the development team to build a school management system for one of Myanmar\'s leading English language schools.',
+  },
+  {
     period: '2023 — 2025',
     role: 'Founder',
     org: 'Code Mal Youth Org',
+    logo: codemalLogo,
     type: 'Community',
     description:
       'Started a youth coding community and shared beginner-friendly resources to help more students learn to code.',
@@ -30,6 +45,7 @@ const ROLES = [
     period: '2023 — 2024',
     role: 'Chief Technology Officer',
     org: 'Sa Map',
+    logo: samapLogo,
     type: 'Leadership',
     description:
       'Served as CTO in a youth entrepreneurship organization, supporting product direction and technical decisions.',
@@ -71,9 +87,19 @@ export default function Experience() {
               <h3 className="font-display font-light text-ink leading-tight tracking-tight text-[clamp(1.9rem,3.4vw,2.75rem)]">
                 {role.role}
               </h3>
-              <p className="font-sans text-base md:text-lg text-accent-dark mt-1.5">
-                {role.org}
-              </p>
+              <div className="mt-1.5 flex items-center gap-3">
+                {role.logo && (
+                  <img
+                    src={role.logo}
+                    alt={`${role.org} logo`}
+                    className="w-8 h-8 rounded-lg object-contain bg-canvas border border-ink-ghost p-1"
+                    loading="lazy"
+                  />
+                )}
+                <p className="font-sans text-base md:text-lg text-accent-dark">
+                  {role.org}
+                </p>
+              </div>
             </div>
 
             {/* Description */}
