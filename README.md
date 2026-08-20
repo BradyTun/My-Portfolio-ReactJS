@@ -1,150 +1,90 @@
 <div align="center">
 
-# ✦ &nbsp; Kyaw Ko Ko Tun — Portfolio &nbsp; ✦
+# Kyaw Ko Ko Tun — Portfolio
 
-### A minimalist portfolio with an *old-soul* editorial aesthetic.
+### A quiet, product-led portfolio for a full-stack engineer, founder, and community builder.
 
-_Warm paper canvas · espresso ink · Cormorant Garamond display type · ultra-fine grids · gentle micro-interactions._
+Warm editorial canvas · flat art-directed project panels · strong reading hierarchy · restrained motion
 
-<br/>
+`React 19` · `Vite 8` · `Tailwind CSS 3` · `Lucide React`
 
-`React 19` &nbsp;·&nbsp; `Vite` &nbsp;·&nbsp; `Tailwind CSS` &nbsp;·&nbsp; `Zero UI dependencies`
-
-<br/>
-
-[**Live Demo**](https://kyawkokotun.com) &nbsp;•&nbsp; [**Report an Issue**](https://github.com/BradyTun/My-Portfolio-ReactJS/issues) &nbsp;•&nbsp; [**Fork & Make it Yours**](#-make-it-yours)
+[Live site](https://kyawkokotun.com) · [GitHub](https://github.com/BradyTun/) · [LinkedIn](https://www.linkedin.com/in/kyawkokotun/)
 
 </div>
 
----
+## Design direction
 
-## ✦ Philosophy
+The portfolio is built as a “quiet product ledger”: the interface gets out of the way and lets the work, roles, and thinking carry the page.
 
-This is a personal portfolio built around one idea: **let the work breathe.**
+- Warm bone, near-black, and one lacquer-vermilion signature color
+- Newsreader for editorial emphasis; Instrument Sans for everything functional
+- Two full case studies followed by four accessible project dossiers
+- Static operating-range index instead of continuous decorative motion
+- Chronological experience and capability ledgers with generous reading space
+- Flat, project-specific artwork made from type, line, color, and real logos
+- Resource-aware opening sequence with a one-second branded reveal
+- Fine-pointer custom cursor, concise project labels, and progressive scroll reveals
+- No parallax or scroll hijacking; reduced-motion users get a static opening transition and no cursor/reveal motion
 
-- **Minimalism** — every element has room. Negative space is treated as a feature, not an absence.
-- **Editorial typography** — a serif (`Cormorant Garamond`) paired with a clean sans (`Inter`) and a technical mono (`JetBrains Mono`).
-- **Warm, not sterile** — no pure whites, no pure blacks. The canvas is coffee-tinted; the ink is espresso.
-- **Small creative touches** — a scroll-progress bar, a live timezone clock, an animated full-screen menu, a pausing marquee, and grid-row hover reveals.
-
----
-
-## ✦ Tech Stack
-
-| Layer | Choice |
-| :--- | :--- |
-| **Framework** | React 19 |
-| **Build Tool** | Vite |
-| **Styling** | Tailwind CSS (custom design tokens) |
-| **Fonts** | Cormorant Garamond · Inter · JetBrains Mono |
-| **Animation** | Pure CSS keyframes + IntersectionObserver |
-| **Dependencies** | None beyond React — no UI kit, no animation library |
-
----
-
-## ✦ Getting Started
+## Run locally
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/BradyTun/My-Portfolio-ReactJS.git
-cd My-Portfolio-ReactJS
-
-# 2. Install dependencies
 npm install
-
-# 3. Start the dev server
 npm run dev
+```
 
-# 4. Build for production
+Production checks:
+
+```bash
+npm run lint
 npm run build
+npm run preview
 ```
 
-The dev server runs at **http://localhost:5173** (or the next free port).
+## Content model
 
----
+All facts rendered by the React portfolio live in [`src/data/portfolio.js`](src/data/portfolio.js). This includes:
 
-## ✦ Project Structure
+- Profile, availability, location, proof points, and social links
+- Six projects with summary, challenge, contribution, outcome, stack, status, and links
+- Six additional-work categories
+- Six experience entries
+- Operating range, capabilities, working principles, and personal interests
 
-```
+Keeping the data separate from presentation makes future visual changes safer and prevents content loss.
+
+## Project structure
+
+```text
 src/
-├── App.jsx              # Page composition — section order lives here
-├── main.jsx            # React entry point
-├── index.css           # Design tokens, fonts, textures, marquee + animations
-│
-├── hooks/
-│   └── useReveal.js    # Scroll-triggered fade-up via IntersectionObserver
-│
+├── App.jsx
+├── index.css
+├── data/
+│   └── portfolio.js
 └── components/
-    ├── Nav.jsx         # Floating nav · scroll progress · live clock · overlay menu
-    ├── Hero.jsx        # Oversized serif name + descriptor
-    ├── Marquee.jsx     # Infinite scrolling keyword band
-    ├── Section.jsx     # Shared section shell + editorial heading
-    ├── Work.jsx        # Projects as an interactive editorial index
-    ├── About.jsx       # Bio, capabilities, and personal disciplines
-    ├── Experience.jsx  # Career & leadership timeline
-    └── Contact.jsx     # Giant CTA, socials, and footer
+    ├── Nav.jsx
+    ├── Loader.jsx
+    ├── MotionLayer.jsx
+    ├── Hero.jsx
+    ├── Work.jsx
+    ├── Marquee.jsx      # Static operating-range index
+    ├── Experience.jsx
+    ├── About.jsx
+    ├── Contact.jsx
+    └── Section.jsx
 ```
 
----
+The downloadable résumé is stored in `cv/`. Optimized project marks are in `src/assets/optimized/`.
 
-## ✦ Make It Yours
+## Accessibility and performance
 
-All content lives in plain data arrays at the top of each component — **no hunting through JSX required.**
+- Semantic landmarks, headings, lists, definitions, and button states
+- Skip link, visible focus states, keyboard-operable project dossiers, and focus-trapped mobile navigation
+- Reduced-motion support
+- Responsive layouts that remain stacked until content has enough room
+- Lazy-loaded project and organization logos with explicit dimensions
+- SEO, Open Graph, Twitter card, and Person JSON-LD metadata
 
-| What to change | Where |
-| :--- | :--- |
-| **Your name & tagline** | [`src/components/Hero.jsx`](src/components/Hero.jsx) |
-| **Projects** | `PROJECTS` array in [`src/components/Work.jsx`](src/components/Work.jsx) |
-| **Bio & skills** | `CAPABILITIES` / `DISCIPLINES` in [`src/components/About.jsx`](src/components/About.jsx) |
-| **Work history** | `ROLES` array in [`src/components/Experience.jsx`](src/components/Experience.jsx) |
-| **Email & socials** | `SOCIALS` / `EMAIL` in [`src/components/Contact.jsx`](src/components/Contact.jsx) |
-| **Nav links & clock** | `NAV_LINKS` / timezone in [`src/components/Nav.jsx`](src/components/Nav.jsx) |
+## License
 
-### Theme it
-
-Every color, font, and spacing value is a token in [`tailwind.config.js`](tailwind.config.js):
-
-```js
-colors: {
-  canvas: '#F7F5F0',   // warm off-white background
-  ink:    '#1A1814',   // espresso text
-  accent: '#C4A882',   // muted warm gold
-}
-```
-
-Swap these three values and the entire palette re-harmonizes.
-
-### Add a highlighted project
-
-Mark any project as `featured: true` in the `PROJECTS` array to give it the
-accent-tinted treatment with a pulsing "Launching Soon" status badge.
-
----
-
-## ✦ Accessibility & Performance
-
-- Respects `prefers-reduced-motion` — all animations collapse gracefully.
-- Semantic landmarks, `aria-label`s, and keyboard-focusable interactions.
-- No runtime UI dependencies → tiny bundle, fast first paint.
-- Fonts preconnected; layout is fully fluid via `clamp()`.
-
----
-
-## ✦ License
-
-Released under the **MIT License** — free to use, fork, and adapt.
-If you build something with it, a credit link back is appreciated but not required.
-
-See [LICENSE](LICENSE) for details.
-
----
-
-<div align="center">
-
-**Built by [Kyaw Ko Ko Tun](https://github.com/BradyTun)**
-
-[GitHub](https://github.com/BradyTun/) · [LinkedIn](https://www.linkedin.com/in/kyawkokotun/) · [Facebook](https://www.facebook.com/kyawkokotun888/)
-
-<sub>If this was helpful to you, a ⭐ is always appreciated</sub>
-
-</div>
+Released under the [MIT License](LICENSE).

@@ -3,35 +3,32 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
-      // ── Color System ─────────────────────────────────────────────────────────
-      // High-contrast dark palette tuned for strong readability.
+      // Quiet product-ledger palette used by the semantic CSS layer.
       colors: {
-        canvas: '#05070B',
+        canvas: '#FAF7EF',
         surface: {
-          DEFAULT: '#0D1117',
-          alt: '#151C28',
+          DEFAULT: '#E9E3D8',
+          alt: '#090A08',
         },
         ink: {
-          DEFAULT: '#F3F6FC',
-          muted: '#C9D2E1',
-          faint: '#95A1B4',
-          ghost: '#2A3445',
+          DEFAULT: '#0D0E0B',
+          muted: '#42433D',
+          faint: '#5D5D56',
+          ghost: '#B9B2A5',
         },
         accent: {
-          DEFAULT: '#F0B24A',
-          dark: '#FFD07A',
-          light: '#FFE4B2',
+          DEFAULT: '#C83F26',
+          dark: '#922615',
+          light: '#E98470',
         },
       },
 
       // ── Typography ───────────────────────────────────────────────────────────
-      // display: Cormorant Garamond — editorial serif with vintage soul
-      // sans:    Inter — precision-clean UI and body copy
-      // mono:    JetBrains Mono — technical metadata and labels
+      // Newsreader adds editorial warmth; Instrument Sans carries everything else.
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+        display: ['Newsreader', 'Georgia', 'serif'],
+        sans: ['"Instrument Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"Instrument Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
 
       // ── Letter Spacing ───────────────────────────────────────────────────────
@@ -95,5 +92,3 @@ export default {
   },
   plugins: [],
 }
-
-

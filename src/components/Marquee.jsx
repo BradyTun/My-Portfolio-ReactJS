@@ -1,35 +1,22 @@
-// ── Marquee ─────────────────────────────────────────────────────────────────
-// A large, slow-scrolling band of keywords in display serif. Breaks up the
-// page rhythm and injects movement between text-heavy sections. Pauses on hover.
-const ITEMS = [
-  'Full-Stack Engineering',
-  'System Architecture',
-  'Product Thinking',
-  'AI Agents',
-  'Reliable Infrastructure',
-  'UX Thinking',
-  'Community Work',
-]
+import { OPERATING_RANGE } from '../data/portfolio'
 
 export default function Marquee() {
-  // Duplicate the list so the -50% translate loops seamlessly.
-  const sequence = [...ITEMS, ...ITEMS]
-
   return (
-    <div
-      className="marquee border-y border-ink-ghost py-8 md:py-10 select-none"
-      aria-hidden="true"
-    >
-      <div className="marquee__track">
-        {sequence.map((item, i) => (
-          <span key={i} className="inline-flex items-center">
-            <span className="font-display font-light italic text-ink text-[clamp(2rem,5vw,4rem)] leading-none tracking-tight px-8 md:px-12">
+    <section className="operating-range" aria-label="Areas of focus">
+      <div className="page-shell operating-range__inner">
+        <div className="operating-range__label" data-reveal="up">
+          <span>Operating range</span>
+          <p>Where engineering craft meets product judgement.</p>
+        </div>
+        <ol>
+          {OPERATING_RANGE.map((item, index) => (
+            <li key={item} data-reveal="up">
+              <span>{String(index + 1).padStart(2, '0')}</span>
               {item}
-            </span>
-            <span className="text-accent text-[clamp(1rem,2vw,1.75rem)]">✦</span>
-          </span>
-        ))}
+            </li>
+          ))}
+        </ol>
       </div>
-    </div>
+    </section>
   )
 }

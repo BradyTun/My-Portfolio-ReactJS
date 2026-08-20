@@ -1,274 +1,231 @@
 import { useState } from 'react'
+import { ArrowUpRight, Minus, Plus } from 'lucide-react'
+import { ADDITIONAL_WORK, PROJECTS } from '../data/portfolio'
 import { Section, SectionHeading } from './Section'
-import { ArrowUpRight } from 'lucide-react'
-import letstechLogo from '../assets/letstech.png'
-import sabaiLogo from '../assets/sabai.png'
-import whereLogo from '../assets/where.png'
-import hysanLogo from '../assets/hysan.png'
 
-// ── Project data ────────────────────────────────────────────────────────────
-const PROJECTS = [
-  {
-    id: '01',
-    name: "Let's Tech Club",
-    logo: letstechLogo,
-    year: '2026',
-    category: 'EdTech Platform',
-    role: 'Founder & CEO',
-    description:
-      'A practical tech education platform focused on helping the next generation of developers learn through real projects.',
-    stack: ['Next.js', 'Django', 'PostgreSQL', 'AWS'],
-    link: 'https://www.facebook.com/letstechclub',
-    status: 'Coming June 2026 ✦',
-    featured: true,
-  },
-  {
-    id: '02',
-    name: 'Sabai Job',
-    logo: sabaiLogo,
-    year: '2025',
-    category: 'Marketplace',
-    role: 'Engineering & Product',
-    description:
-      "A platform connecting Myanmar's blue-collar workers with verified employment opportunities in Thailand.",
-    stack: ['React', 'Django', 'PostgreSQL', 'Docker'],
-    link: 'https://sabaijob.com',
-    status: 'Live',
-  },
-  {
-    id: '03',
-    name: 'FinTech Exchange',
-    year: '2025',
-    category: 'Financial Infrastructure',
-    role: 'System Architect',
-    description:
-      'A P2P financial exchange project. Details are confidential; my focus was reliability, security, and clear transaction flows.',
-    stack: ['React', 'Django', 'PostgreSQL', 'AWS'],
-    status: 'Confidential',
-  },
-  {
-    id: '04',
-    name: 'OSBAY MarTech Suite',
-    year: '2026',
-    category: 'Enterprise Product',
-    role: 'Senior Software Engineer',
-    description:
-      'Automated lead search, market research, and conversion workflows for marketing teams, built for reliability and steady growth.',
-    stack: ['Next.js', 'Django', 'PostgreSQL', 'Docker', 'AWS'],
-    status: 'In Production',
-  },
-  {
-    id: '05',
-    name: 'WHERE',
-    logo: whereLogo,
-    launchBadge: true,
-    year: '2026',
-    category: 'Open Source',
-    role: 'Founder',
-    description:
-      'An upcoming open-source networking platform for people to connect, share, and build community in public.',
-    stack: ['Next.js', 'PostgreSQL', 'Docker'],
-    status: 'Coming July 2026',
-  },
-  {
-    id: '06',
-    name: 'Hysan Education',
-    logo: hysanLogo,
-    year: '2024-2025',
-    category: 'Education Tech',
-    role: 'Tech Team Lead',
-    description:
-      'Led the tech team to develop a school management system for Hysan Education, a leading English language school in Myanmar.',
-    stack: ['React', 'Django', 'PostgreSQL'],
-    status: 'Delivered',
-  },
-]
-
-// ── ProjectRow ──────────────────────────────────────────────────────────────
-// An editorial index row. Collapsed it reads as a clean line; on hover the
-// description + stack expand, the title shifts, and an arrow advances.
-function ProjectRow({ project }) {
-  const [open, setOpen] = useState(false)
-
-  const toggleOpen = () => setOpen((v) => !v)
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      toggleOpen()
-    }
-  }
+function ProjectArtwork({ project, compact = false }) {
+  const hasProductEvidence = Boolean(project.artwork)
 
   return (
     <div
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onClick={toggleOpen}
-      onKeyDown={onKeyDown}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
-      role="button"
-      tabIndex={0}
-      aria-expanded={open}
-      className={[
-        'group block border-t cursor-pointer outline-none transition-all duration-500',
-        'px-4 md:px-6 -mx-4 md:-mx-6 rounded-2xl',
-        project.featured
-          ? 'border-accent/50 bg-accent/[0.06] py-9 md:py-12'
-          : 'border-ink-ghost py-8 md:py-10 hover:bg-surface/30',
-      ].join(' ')}
+      className={`project-art ${compact ? 'project-art--compact' : ''} ${hasProductEvidence ? 'project-art--evidence' : ''}`}
+      style={{
+        '--project-background': project.palette.background,
+        '--project-foreground': project.palette.foreground,
+        '--project-accent': project.palette.accent,
+      }}
+      aria-hidden={hasProductEvidence ? undefined : true}
     >
-      {/* Top line — always visible */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-baseline md:justify-between">
-        <div className="flex items-start md:items-baseline gap-4 md:gap-9 min-w-0 w-full md:w-auto">
-          <span className="font-mono text-sm tracking-wider text-ink-faint flex-shrink-0">
-            {project.id}
-          </span>
-          <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-wrap">
-            {project.logo && (
-              <img
-                src={project.logo}
-                alt={`${project.name} logo`}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-contain bg-canvas border border-ink-ghost p-1.5 flex-shrink-0"
-                loading="lazy"
-              />
-            )}
-            <h3
-              className={[
-                'font-display font-light leading-none tracking-tight whitespace-normal break-words md:truncate',
-                'text-[clamp(2.5rem,6vw,4.75rem)]',
-                'transition-all duration-500 ease-expo-out',
-                open ? 'text-ink translate-x-2' : 'text-ink',
-              ].join(' ')}
-            >
-              {project.name}
-            </h3>
-            {/* Pending / Launching badge */}
-            {(project.featured || project.launchBadge) && (
-              <span className="inline-flex items-center gap-2 font-mono text-[0.62rem] tracking-widest uppercase text-accent-dark border border-accent/60 rounded-full px-3 py-1.5 whitespace-nowrap">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-accent opacity-60 animate-ping" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-dark" />
-                </span>
-                Launching Soon
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-5 md:gap-8 flex-shrink-0 self-start md:self-auto">
-          <span className="hidden sm:block font-mono text-xs tracking-wider text-ink-muted uppercase">
-            {project.category}
-          </span>
-          <span className={[
-            'font-mono text-xs tracking-wider',
-            project.featured ? 'text-accent-dark font-medium' : 'text-ink-faint',
-          ].join(' ')}>
-            {project.year}
-          </span>
-          <span
-            className={[
-              'text-ink-faint text-lg leading-none transition-all duration-500 ease-expo-out',
-              open
-                ? 'opacity-100 translate-x-0 text-ink'
-                : 'opacity-0 -translate-x-2',
-            ].join(' ')}
-            aria-hidden="true"
-          >
-            →
-          </span>
-        </div>
+      <div className="project-art__header">
+        <span>Case / {project.id}</span>
+        <span>{project.year}</span>
       </div>
-
-      {/* Expanding detail — grid-rows trick for smooth height animation */}
-      <div
-        className={[
-          'grid transition-all duration-600 ease-expo-out',
-          open ? 'grid-rows-[1fr] opacity-100 mt-7' : 'grid-rows-[0fr] opacity-0 mt-0',
-        ].join(' ')}
-      >
-        <div className="overflow-hidden">
-          <div className="pl-8 md:pl-[4.4rem] flex flex-col md:flex-row md:items-end justify-between gap-7">
-            <p className="font-sans text-lg md:text-xl leading-[1.7] text-ink-muted max-w-2xl">
-              {project.description}
-            </p>
-            <div className="flex flex-col gap-4 md:items-end flex-shrink-0">
-              <span className="font-mono text-xs tracking-wider text-accent-dark uppercase">
-                {project.role} · {project.status}
-              </span>
-              <div className="flex flex-wrap gap-2 md:justify-end max-w-xs">
-                {project.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="font-mono text-xs tracking-wide text-ink-muted border border-ink-ghost rounded-full px-3.5 py-1.5"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              {project.link && (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="inline-flex items-center gap-2 font-sans text-sm text-ink-muted hover:text-ink transition-colors duration-300"
-                >
-                  View More
-                  <ArrowUpRight size={14} aria-hidden="true" />
-                </a>
-              )}
-            </div>
+      {hasProductEvidence ? (
+        <>
+          <div className="project-art__evidence-copy">
+            <span>Public product preview</span>
+            <strong>Verified talent. Direct work.</strong>
           </div>
-        </div>
+          <img
+            className="project-art__product"
+            src={project.artwork}
+            alt={project.artworkAlt}
+            width="600"
+            height="1160"
+            loading="lazy"
+          />
+        </>
+      ) : (
+        <>
+          <span className="project-art__line" />
+          <span className="project-art__circle" />
+          <span className="project-art__type">{project.shortName}</span>
+          {project.logo && (
+            <span className="project-art__logo">
+              <img src={project.logo} alt="" width="96" height="96" loading="lazy" />
+            </span>
+          )}
+        </>
+      )}
+      <div className="project-art__footer">
+        <span>{project.category}</span>
+        <span>Product dossier</span>
       </div>
     </div>
   )
 }
 
-export default function Work() {
+function ProjectEvidence({ project }) {
+  const details = [
+    ['Challenge', project.challenge],
+    ['My contribution', project.contribution],
+    ['Outcome', project.outcome],
+  ]
+
   return (
-    <Section id="work" label="Selected work">
-      <SectionHeading
-        index="01 — Work"
-        eyebrow="Selected Projects"
-        title="Practical products, built to last."
-      />
-      <div className="border-b border-ink-ghost">
-        {PROJECTS.map((project) => (
-          <ProjectRow key={project.id} project={project} />
-        ))}
+    <div className="project-evidence">
+      {details.map(([label, value], index) => (
+        <div key={label} className="project-evidence__item">
+          <span>{String(index + 1).padStart(2, '0')} / {label}</span>
+          <p>{value}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ProjectMeta({ project }) {
+  return (
+    <div className="project-meta">
+      <div>
+        <span>Role</span>
+        <strong>{project.role}</strong>
+      </div>
+      <div>
+        <span>Status</span>
+        <strong>{project.status}</strong>
+      </div>
+      <div>
+        <span>Stack</span>
+        <ul aria-label={`${project.name} technology stack`}>
+          {project.stack.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function FeaturedProject({ project }) {
+  return (
+    <article className="featured-project">
+      <div className="featured-project__intro" data-reveal="up">
+        <div className="project-kicker">
+          <span>{project.id}</span>
+          <span>{project.category}</span>
+          <span>{project.year}</span>
+        </div>
+        <h3>{project.name}</h3>
+        <p>{project.summary}</p>
+        {project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-link"
+            aria-label={`View ${project.name} live product (opens in a new tab)`}
+          >
+            View live product <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
+        )}
+        <ProjectMeta project={project} />
       </div>
 
-      {/* ── Additional Creations Segment ─────────────────────────────────── */}
-      <div className="mt-16 md:mt-24 grid md:grid-cols-12 gap-y-8 gap-x-12">
-        <div className="md:col-span-4">
-          <span className="font-mono text-xs tracking-wider text-accent-dark uppercase">
-            Other Work
-          </span>
-          <h4 className="font-display font-light text-2xl text-ink leading-tight mt-3">
-            Additional Projects
-          </h4>
-        </div>
-        <div className="md:col-span-8">
-          <p className="font-sans text-lg text-ink-muted leading-[1.8] max-w-2xl mb-8">
-            Alongside these focus projects, I've also built smaller tools and
-            systems over the years, including:
-          </p>
-          <div className="flex flex-wrap gap-x-7 gap-y-4">
-            {[
-              'Custom POS',
-              'Modular LMS Platforms',
-              'Telegram bots and automations',
-              'Lead generation tools',
-              'Market data scrapers',
-              'Utility tools for end users',
-            ].map((tool, idx) => (
-              <span key={idx} className="flex items-center gap-2 font-display italic font-light text-xl text-ink">
-                <span className="text-accent">✦</span> {tool}
-              </span>
-            ))}
+      <a
+        href={project.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="project-art-link"
+        aria-label={`Visit ${project.name} live product (opens in a new tab)`}
+        data-cursor="Visit"
+        data-reveal="up"
+      >
+        <ProjectArtwork project={project} />
+      </a>
+      <div className="featured-project__evidence" data-reveal="up">
+        <ProjectEvidence project={project} />
+      </div>
+    </article>
+  )
+}
+
+function ProjectDossier({ project }) {
+  const [open, setOpen] = useState(false)
+  const contentId = `project-${project.id}-details`
+
+  return (
+    <article
+      className={`project-dossier ${open ? 'project-dossier--open' : ''}`}
+      data-reveal="up"
+    >
+      <button
+        type="button"
+        className="project-dossier__trigger"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls={contentId}
+        aria-label={`${open ? 'Collapse' : 'Expand'} ${project.name} case study`}
+        data-cursor={open ? 'Close' : 'Open'}
+      >
+        <span className="project-dossier__index">{project.id}</span>
+        <span className="project-dossier__title">
+          <strong>{project.name}</strong>
+          <small>{project.category} · {project.year}</small>
+        </span>
+        <span className="project-dossier__summary">{project.summary}</span>
+        <span className="project-dossier__status">{project.status}</span>
+        <span className="project-dossier__toggle" aria-hidden="true">
+          {open ? <Minus size={18} /> : <Plus size={18} />}
+        </span>
+      </button>
+
+      <div
+        id={contentId}
+        className="project-dossier__details"
+        aria-hidden={!open}
+        inert={!open ? true : undefined}
+      >
+        <div className="project-dossier__details-inner">
+          <div className="project-dossier__art">
+            <ProjectArtwork project={project} compact />
+          </div>
+          <div className="project-dossier__content">
+            <ProjectEvidence project={project} />
+            <ProjectMeta project={project} />
           </div>
         </div>
+      </div>
+    </article>
+  )
+}
+
+export default function Work() {
+  const featuredProjects = PROJECTS.filter((project) => project.featured)
+  const dossierProjects = PROJECTS.filter((project) => !project.featured)
+
+  return (
+    <Section id="work" label="Selected work" className="work-section">
+      <SectionHeading
+        index="01"
+        eyebrow={`Projects & case studies / ${String(PROJECTS.length).padStart(2, '0')} projects`}
+        title="Products for learning, work, finance, and growth."
+        note="A selection of systems I have founded, led, architected, or shipped across the full product lifecycle."
+      />
+
+      <div className="featured-projects">
+        {featuredProjects.map((project) => <FeaturedProject key={project.id} project={project} />)}
+      </div>
+
+      <div className="project-ledger" aria-label="Additional case studies">
+        <div className="project-ledger__header">
+          <span>More case studies</span>
+          <span>Select a row to read the complete dossier</span>
+        </div>
+        {dossierProjects.map((project) => <ProjectDossier key={project.id} project={project} />)}
+      </div>
+
+      <div className="other-work" data-reveal="up">
+        <div className="other-work__heading">
+          <span>Other work</span>
+          <h3>Smaller tools, same care.</h3>
+        </div>
+        <ol>
+          {ADDITIONAL_WORK.map((item, index) => (
+            <li key={item}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {item}
+            </li>
+          ))}
+        </ol>
       </div>
     </Section>
   )

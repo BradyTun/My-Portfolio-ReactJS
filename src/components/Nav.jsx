@@ -1,217 +1,280 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowUpRight, Menu, X } from 'lucide-react'
+import resumePdf from '../../cv/Kyaw-Ko-Ko-Tun-CV.pdf?url'
+import { PROFILE } from '../data/portfolio'
 
-// Sections tracked for active-state + the overlay menu.
 const NAV_LINKS = [
   { href: '#work', label: 'Work', id: 'work', index: '01' },
-  { href: '#about', label: 'About', id: 'about', index: '02' },
-  { href: '#experience', label: 'Experience', id: 'experience', index: '03' },
+  { href: '#experience', label: 'Experience', id: 'experience', index: '02' },
+  { href: '#about', label: 'About', id: 'about', index: '03' },
   { href: '#contact', label: 'Contact', id: 'contact', index: '04' },
 ]
 
-// ── Live clock (Yangon, GMT+6:30) ───────────────────────────────────────────
 function useClock() {
   const [time, setTime] = useState('')
+
   useEffect(() => {
     const tick = () => {
-      const now = new Date().toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Yangon',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      })
-      setTime(now)
+      setTime(
+        new Date().toLocaleTimeString('en-GB', {
+          timeZone: 'Asia/Yangon',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        }),
+      )
     }
+
     tick()
-    const id = setInterval(tick, 1000 * 30)
-    return () => clearInterval(id)
+    const timer = window.setInterval(tick, 30000)
+    return () => window.clearInterval(timer)
   }, [])
+
   return time
 }
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [progress, setProgress] = useState(0)
   const [active, setActive] = useState('home')
   const [menuOpen, setMenuOpen] = useState(false)
+  const progressRef = useRef(null)
+  const wordmarkRef = useRef(null)
+  const menuButtonRef = useRef(null)
+  const closeButtonRef = useRef(null)
+  const menuRef = useRef(null)
   const time = useClock()
 
-  // Scroll: progress bar + condensed state.
   useEffect(() => {
-    const onScroll = () => {
-      const top = window.scrollY
-      const height = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(height > 0 ? top / height : 0)
-      setScrolled(top > 40)
+    let frame
+    const updateScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight
+      setScrolled(window.scrollY > 24)
+      const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${progress})`
+      }
+      frame = undefined
     }
-    onScroll()
+
+    const onScroll = () => {
+      if (frame !== undefined) return
+      frame = window.requestAnimationFrame(updateScroll)
+    }
+
+    updateScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame !== undefined) window.cancelAnimationFrame(frame)
+    }
   }, [])
 
-  // Active section tracking.
   useEffect(() => {
-    const ids = ['home', ...NAV_LINKS.map((l) => l.id)]
-    const sections = ids
+    const sections = ['home', ...NAV_LINKS.map(({ id }) => id)]
       .map((id) => document.getElementById(id))
       .filter(Boolean)
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id)
-        })
+        const visible = entries.find((entry) => entry.isIntersecting)
+        if (visible) setActive(visible.target.id)
       },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
+      { rootMargin: '-35% 0px -55% 0px', threshold: 0 },
     )
-    sections.forEach((s) => observer.observe(s))
+
+    sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
   }, [])
 
-  // Lock body scroll while overlay is open.
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    if (!menuOpen) return undefined
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const backgroundElements = [
+      document.querySelector('.skip-link'),
+      document.querySelector('.site-nav'),
+      document.getElementById('main-content'),
+      document.querySelector('.site-footer'),
+    ].filter(Boolean)
+    const menuItems = Array.from(
+      menuRef.current?.querySelectorAll('a[href], button:not([disabled])') ?? [],
+    )
+    const focusable = menuItems.filter(Boolean)
+    closeButtonRef.current?.focus()
+    backgroundElements.forEach((element) => {
+      element.inert = true
+      element.setAttribute('aria-hidden', 'true')
+    })
+
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        window.requestAnimationFrame(() => menuButtonRef.current?.focus())
+        return
+      }
+
+      if (event.key !== 'Tab' || !focusable.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    const containFocus = (event) => {
+      if (!menuRef.current?.contains(event.target)) {
+        event.stopPropagation()
+        closeButtonRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('focusin', containFocus)
     return () => {
-      document.body.style.overflow = ''
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('focusin', containFocus)
+      backgroundElements.forEach((element) => {
+        element.inert = false
+        element.removeAttribute('aria-hidden')
+      })
     }
   }, [menuOpen])
 
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 900px)')
+    const closeAtDesktop = (event) => {
+      if (!event.matches || !menuOpen) return
+      setMenuOpen(false)
+      window.requestAnimationFrame(() => wordmarkRef.current?.focus())
+    }
+
+    desktop.addEventListener('change', closeAtDesktop)
+    return () => desktop.removeEventListener('change', closeAtDesktop)
+  }, [menuOpen])
+
+  const closeMenu = (href) => {
+    setMenuOpen(false)
+    window.setTimeout(() => {
+      if (href?.startsWith('#')) {
+        document.getElementById(href.slice(1))?.focus({ preventScroll: true })
+      } else {
+        menuButtonRef.current?.focus()
+      }
+    }, 0)
+  }
+
   return (
     <>
-      {/* ── Scroll progress line (very top) ──────────────────────────────── */}
-      <div className="fixed top-0 left-0 right-0 z-[60] h-px bg-transparent">
-        <div
-          className="h-full bg-accent-dark origin-left transition-transform duration-150 ease-out"
-          style={{ transform: `scaleX(${progress})` }}
-        />
+      <div className="scroll-progress" aria-hidden="true">
+        <span ref={progressRef} style={{ transform: 'scaleX(0)' }} />
       </div>
 
-      {/* ── Top bar ──────────────────────────────────────────────────────── */}
-      <header
-        className={[
-          'fixed top-0 left-0 right-0 z-50',
-          'flex items-center justify-between',
-          'px-8 md:px-16 lg:px-24',
-          'transition-all duration-500 ease-expo-out',
-          scrolled
-            ? 'py-4 bg-canvas/80 backdrop-blur-xl border-b border-ink-ghost'
-            : 'py-7 border-b border-transparent',
-        ].join(' ')}
-      >
-        {/* Wordmark — monogram flips to a star on hover */}
-        <a
-          href="#home"
-          aria-label="Back to top"
-          className="group flex items-center gap-3 text-ink"
-        >
-          <span className="relative flex items-center justify-center w-9 h-9 rounded-full border border-ink-ghost overflow-hidden">
-            <span className="font-display text-lg leading-none transition-transform duration-500 ease-expo-out group-hover:-translate-y-8">
-              K
-            </span>
-            <span className="absolute font-display text-base leading-none text-accent-dark translate-y-8 transition-transform duration-500 ease-expo-out group-hover:translate-y-0">
-              ✦
-            </span>
-          </span>
-          <span className="hidden sm:block leading-tight">
-            <span className="block font-mono text-[0.62rem] tracking-widest uppercase text-ink-muted">
-              Kyaw Ko Ko Tun
-            </span>
-            <span className="block font-mono text-[0.62rem] tracking-widest uppercase text-ink-faint">
-              Builder · Scaler
-            </span>
-          </span>
-        </a>
-
-        {/* Center pill — desktop active-section nav */}
-        <nav
-          aria-label="Primary navigation"
-          className="hidden md:flex items-center gap-1 rounded-full border border-ink-ghost bg-canvas/50 backdrop-blur-sm px-2 py-1.5"
-        >
-          {NAV_LINKS.map(({ href, label, id }) => {
-            const isActive = active === id
-            return (
-              <a
-                key={id}
-                href={href}
-                className={[
-                  'relative px-4 py-1.5 rounded-full font-sans text-sm tracking-wide transition-colors duration-300',
-                  isActive ? 'text-canvas' : 'text-ink-muted hover:text-ink',
-                ].join(' ')}
-              >
-                {isActive && (
-                  <span className="absolute inset-0 rounded-full bg-ink" />
-                )}
-                <span className="relative z-10">{label}</span>
-              </a>
-            )
-          })}
-        </nav>
-
-        {/* Right cluster — clock + menu trigger */}
-        <div className="flex items-center gap-5">
-          <span className="hidden lg:flex items-center gap-2 font-mono text-[0.62rem] tracking-wider text-ink-faint uppercase">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            {time} RGN
-          </span>
-
-          {/* Menu trigger (mobile overlay) */}
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-            className="group flex flex-col items-end gap-1.5 md:hidden"
+      <header className={`site-nav ${scrolled ? 'site-nav--scrolled' : ''} ${menuOpen ? 'site-nav--menu-open' : ''}`}>
+        <div className="page-shell site-nav__inner">
+          <a
+            ref={wordmarkRef}
+            href="#home"
+            className="wordmark"
+            aria-label="Kyaw Ko Ko Tun, back to top"
           >
-            <span
-              className={[
-                'block h-px bg-ink transition-all duration-400 ease-expo-out',
-                menuOpen ? 'w-6 translate-y-[3.5px] rotate-45' : 'w-6',
-              ].join(' ')}
-            />
-            <span
-              className={[
-                'block h-px bg-ink transition-all duration-400 ease-expo-out',
-                menuOpen
-                  ? 'w-6 -translate-y-[3.5px] -rotate-45'
-                  : 'w-4 group-hover:w-6',
-              ].join(' ')}
-            />
-          </button>
+            <span className="wordmark__monogram">KKT</span>
+            <span className="wordmark__name">
+              Kyaw Ko Ko Tun
+              <small>Portfolio / 2026</small>
+            </span>
+          </a>
+
+          <nav className="desktop-nav" aria-label="Primary navigation">
+            {NAV_LINKS.map(({ href, id, label }) => (
+              <a key={id} href={href} aria-current={active === id ? 'location' : undefined}>
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="site-nav__actions">
+            <span className="local-time" aria-label={`${time}, local time in ${PROFILE.location}`}>
+              {time} RGN
+            </span>
+            <a
+              href={resumePdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="resume-link"
+              aria-label="View résumé (opens in a new tab)"
+            >
+              Résumé <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              className="menu-toggle"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <Menu size={21} aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ── Full-screen overlay menu (mobile) ────────────────────────────── */}
       <div
-        className={[
-          'fixed inset-0 z-40 md:hidden',
-          'bg-canvas/98 backdrop-blur-xl',
-          'transition-all duration-500 ease-expo-out',
-          menuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none',
-        ].join(' ')}
+        ref={menuRef}
+        id="mobile-menu"
+        className={`mobile-menu ${menuOpen ? 'mobile-menu--open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
+        inert={!menuOpen ? true : undefined}
       >
-        <nav className="flex flex-col justify-center h-full px-8 gap-2">
-          {NAV_LINKS.map(({ href, label, index }, i) => (
-            <a
-              key={href}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className={[
-                'group flex items-baseline gap-5 py-3 border-b border-ink-ghost',
-                'transition-all duration-500 ease-expo-out',
-                menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
-              ].join(' ')}
-              style={{ transitionDelay: menuOpen ? `${120 + i * 70}ms` : '0ms' }}
+        <div className="page-shell mobile-menu__inner">
+          <div className="mobile-menu__topbar">
+            <button
+              ref={closeButtonRef}
+              type="button"
+              className="menu-toggle mobile-menu__close"
+              aria-label="Close menu"
+              onClick={() => {
+                setMenuOpen(false)
+                window.requestAnimationFrame(() => menuButtonRef.current?.focus())
+              }}
             >
-              <span className="font-mono text-xs text-accent-dark">{index}</span>
-              <span className="font-display font-light text-ink text-5xl tracking-tight group-hover:italic transition-all duration-300">
+              <X size={21} aria-hidden="true" />
+            </button>
+          </div>
+          <nav aria-label="Mobile navigation links">
+            {NAV_LINKS.map(({ href, label, index }) => (
+              <a key={href} href={href} onClick={() => closeMenu(href)}>
+                <span>{index}</span>
                 {label}
-              </span>
+              </a>
+            ))}
+          </nav>
+          <div className="mobile-menu__footer">
+            <a
+              href={resumePdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => closeMenu()}
+              aria-label="View résumé (opens in a new tab)"
+            >
+              View résumé <ArrowUpRight size={16} aria-hidden="true" />
             </a>
-          ))}
-          <span className="mt-10 font-mono text-[0.62rem] tracking-widest text-ink-faint uppercase">
-            {time} · Rangoon, Myanmar
-          </span>
-        </nav>
+            <p>
+              {PROFILE.location} · {time} · {PROFILE.timezone}
+            </p>
+          </div>
+        </div>
       </div>
     </>
   )
